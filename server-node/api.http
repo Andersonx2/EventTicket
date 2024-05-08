@@ -1,0 +1,35 @@
+POST http://localhost:3333/events
+Content-Type: application/json
+
+{
+ "title": "Classicos",
+ "details": "Amistoso",
+ "maximumAttendeaes": 29168,
+ "slug": "ingresso"
+} 
+
+
+###
+POST http://localhost:3333/events/fdc06052-5633-4c66-a380-4b32ed2439e9/attendaes
+Content-Type: application/json
+
+{ 
+ "name": "bruna",
+ "email": "bruna@gmail.com"
+}
+
+
+###
+GET  http://localhost:3333/events/fdc06052-5633-4c66-a380-4b32ed2439e9
+
+
+###
+GET  http://localhost:3333/attendaes/2/badge
+
+###
+GET  http://localhost:3333/attendaes/2/check-in 
+###
+GET  http://localhost:3333/events/fdc06052-5633-4c66-a380-4b32ed2439e9/attendees?
+
+###
+GET  http://localhost:3333/events/fdc06052-5633-4c66-a380-4b32ed2439e9/attendees?query=anderson

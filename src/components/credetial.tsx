@@ -15,14 +15,13 @@ import { Feather } from "@expo/vector-icons";
 import { QrCode } from "@/components/qrcode";
 import { Link } from "expo-router";
 
-
 type Props = {
   image?: string;
   onChangeAvatar?: () => void;
-  onShowQrCode?:() => void; 
+  onShowQrCode?: () => void;
 };
 
-export function Credential({ onChangeAvatar, onShowQrCode,image }: Props) {
+export function Credential({ onChangeAvatar, onShowQrCode, image }: Props) {
   return (
     <View className="w-full self-stretch items-center">
       <Image
@@ -62,29 +61,28 @@ export function Credential({ onChangeAvatar, onShowQrCode,image }: Props) {
         )}
 
         <Text className="text-zinc-50 text-2x1 mt-4 font-bold">
-          Anderson Gonçalves
+          Caliane Gonçalves 
+
         </Text>
 
         <Text className="font-regular text-base text-zinc-300 mb-4">
-          Anderson_12@gmail.com
+          Caliane@gmail.com
         </Text>
 
-
         <QrCode value="123" size={160} />
-      
 
-      
-        <TouchableOpacity activeOpacity={0.7} className="mt-6" onPress={onShowQrCode} >
+        <TouchableOpacity
+          activeOpacity={0.7}
+          className="mt-6"
+          onPress={onShowQrCode}
+        >
           <Text className="font-body text-orange-500 text-sm mb-8">
-            Ampliar  a  imagem
+            Ampliar imagem
           </Text>
         </TouchableOpacity>
-
-
         <Link
           href="/"
-          className="text-gray-100 text-base font-bold text-center mb-8"
-        >
+          className="text-gray-100 text-base font-bold text-center mb-8">
           Voltar
         </Link>
       </View>
