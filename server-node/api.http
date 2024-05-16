@@ -15,7 +15,7 @@ Content-Type: application/json
 
 { 
  "name": "bruna",
- "email": "bruna@gmail.com"
+ "email": "brunas@gmail.com"
 }
 
 
@@ -24,10 +24,10 @@ GET  http://localhost:3333/events/fdc06052-5633-4c66-a380-4b32ed2439e9
 
 
 ###
-GET  http://localhost:3333/attendaes/2/badge
+GET  http://localhost:3333/attendaes/3/badge
 
 ###
-GET  http://localhost:3333/attendaes/2/check-in 
+GET  http://localhost:3333/attendaes/3/check-in 
 ###
 GET  http://localhost:3333/events/fdc06052-5633-4c66-a380-4b32ed2439e9/attendees?
 

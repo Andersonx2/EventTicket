@@ -6,12 +6,9 @@ import {
   TouchableOpacity,
 } from "react-native";
 
-// PAREI NO MINUTO -29
 
 import { colors } from "@/styles/colors";
-
 import { Feather } from "@expo/vector-icons";
-
 import { QrCode } from "@/components/qrcode";
 import { Link } from "expo-router";
 
@@ -65,9 +62,7 @@ export function Credential({ onChangeAvatar, onShowQrCode, image }: Props) {
 
         </Text>
 
-        <Text className="font-regular text-base text-zinc-300 mb-4">
-          Caliane@gmail.com
-        </Text>
+        <Text className="font-regular text-base text-zinc-300 mb-4">        </Text>
 
         <QrCode value="123" size={160} />
 
