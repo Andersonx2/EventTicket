@@ -6,19 +6,25 @@ import {
   TouchableOpacity,
 } from "react-native";
 
-
 import { colors } from "@/styles/colors";
 import { Feather } from "@expo/vector-icons";
 import { QrCode } from "@/components/qrcode";
 import { Link } from "expo-router";
+import { BadgeStore } from "@/store/badge-store";
 
 type Props = {
+  data: BadgeStore;
   image?: string;
   onChangeAvatar?: () => void;
   onShowQrCode?: () => void;
 };
 
-export function Credential({ onChangeAvatar, onShowQrCode, image }: Props) {
+export function Credential({
+  data,
+  onChangeAvatar,
+  onShowQrCode,
+  image,
+}: Props) {
   return (
     <View className="w-full self-stretch items-center">
       <Image
@@ -33,17 +39,20 @@ export function Credential({ onChangeAvatar, onShowQrCode, image }: Props) {
         >
           <View className="w-full  flex-row items-center justify-between">
             <Text className="text-zinc-50 text-sm font-bold ">
-              Unite submit
+              {data.eventTitle}
             </Text>
-            <Text className="text-zinc-50 text-sm font-boldclass">001</Text>
+            <Text className="text-zinc-50 text-sm font-boldclass">
+               asdasdas a{ data.id}    </Text>
           </View>
           <View className="w-40 h-40 bg-black rounded-full" />
         </ImageBackground>
 
-        {image ? (
-          <TouchableOpacity activeOpacity={0.9} onPress={onChangeAvatar}>
+        {data.image ? (
+          <TouchableOpacity 
+          activeOpacity={0.9} 
+          onPress={onChangeAvatar}>
             <Image
-              source={{ uri: image }}
+              source={{ uri: data.image }}
               className="w-36 h-36 rounded-full -mt-24"
             />
           </TouchableOpacity>
@@ -58,13 +67,12 @@ export function Credential({ onChangeAvatar, onShowQrCode, image }: Props) {
         )}
 
         <Text className="text-zinc-50 text-2x1 mt-4 font-bold">
-          Caliane Gonçalves 
-
+          {data.name}
         </Text>
 
-        <Text className="font-regular text-base text-zinc-300 mb-4">        </Text>
+        <Text className="font-regular text-base text-zinc-300 mb-4">{data.email} </Text>
 
-        <QrCode value="123" size={160} />
+        <QrCode value={ data.checkInURL} size={160} />
 
         <TouchableOpacity
           activeOpacity={0.7}
@@ -77,7 +85,8 @@ export function Credential({ onChangeAvatar, onShowQrCode, image }: Props) {
         </TouchableOpacity>
         <Link
           href="/"
-          className="text-gray-100 text-base font-bold text-center mb-8">
+          className="text-gray-100 text-base font-bold text-center mb-8"
+        >
           Voltar
         </Link>
       </View>

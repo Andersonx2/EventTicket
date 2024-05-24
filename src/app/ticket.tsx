@@ -16,10 +16,12 @@ import { colors } from "@/styles/colors";
 import { Button } from "@/components/button";
 import * as ImagePicker from "expo-image-picker";
 import { QrCode } from "@/components/qrcode";
+import { useBadgeStore } from "@/store/badge-store";
+import { Redirect } from "expo-router";
 
 export default function Ticket() {
-  const [image, setImage] = useState("");
   const [onShowQrCode, setonShowQrCode] = useState(false);
+  const badgeStore = useBadgeStore()
 
   async function handlesSelectImage() {
     try {
@@ -31,7 +33,7 @@ export default function Ticket() {
 
       if (result.assets) {
         console.log(result.assets);
-        setImage(result.assets[0].uri);
+        badgeStore.updateAvatar(result.assets[0].uri);
       }
     } catch (error) {
       console.log(error);
@@ -39,7 +41,12 @@ export default function Ticket() {
     }
   }
 
-  return (
+  if(!badgeStore.data?.checkInURL){
+    return <Redirect href="/"/>
+
+  }
+
+ return (
     <View className="flex-1 bg-green-500">
       <StatusBar barStyle="light-content" />
       <Header title="Minha Credencial" />
@@ -49,9 +56,10 @@ export default function Ticket() {
         showsHorizontalScrollIndicator={false}
       >
         <Credential
-          image={image}
+          data={badgeStore.data}
           onChangeAvatar={handlesSelectImage}
           onShowQrCode={() => setonShowQrCode(true)}
+          
         />
 
         <FontAwesome
@@ -67,7 +75,11 @@ export default function Ticket() {
 
         <Button title="Compartilhar" />
 
-        <TouchableOpacity activeOpacity={0.7} className="mt-10">
+        <TouchableOpacity 
+         activeOpacity={0.7} 
+         className="mt-10"
+         onPress={() => badgeStore.remove()}
+         >
           <Text className="text-base text-white font-bold text-center">
             {" "}
             Remover Ingresso

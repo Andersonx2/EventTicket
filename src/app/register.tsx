@@ -9,9 +9,12 @@ import { Input } from "@/components/input";
 import { colors } from "@/styles/colors";
 
 import { api } from "@/server/api";
-import axios, { Axios } from "axios";
+import axios from "axios";
+import { useBadgeStore } from "@/store/badge-store";
 
-const EVENT_ID = "5f731e56-22d2-4b36-9e55-8f3082c23992";
+const EVENT_ID = "fdc06052-5633-4c66-a380-4b32ed2439e9";
+
+const badgeStore = useBadgeStore();
 
 export default function Register() {
   const [name, setName] = useState("");
@@ -32,6 +35,12 @@ export default function Register() {
       });
 
       if (registerResponse.data.attendaeId) {
+        const badgeResponse = await api.get(`/attendaes/${registerResponse.data.attendaeId}/badge`);
+
+          badgeStore.save(badgeResponse.data.badge);
+        
+
+
         Alert.alert("Inscrição:", "Inscricao realizada com sucesso!", [
           {
             text: "OK",
@@ -42,6 +51,8 @@ export default function Register() {
         ]);
       }
     } catch (error) {
+      setIsLoading(false);
+      
       console.log(error);
       if (axios.isAxiosError(error)) {
         if (
@@ -54,9 +65,7 @@ export default function Register() {
         }
       }
       Alert.alert("Inscrição:", "Não foi possivel realizar a inscrião");
-    } finally {
-      setIsLoading(false);
-    }
+    } 
   }
 
   return (
