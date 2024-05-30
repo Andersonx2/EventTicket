@@ -1,9 +1,9 @@
-import axios from "axios";
+import axios from 'axios';
  
 export const api = axios.create({ 
-    baseURL: "http://192.168.1.11:3333",
+    baseURL: 'http://192.168.1.9:3333',
     headers: {
-        "Content-Type": "application/json"
+        'Content-Type': 'application/json'
     }
-})
+});
  

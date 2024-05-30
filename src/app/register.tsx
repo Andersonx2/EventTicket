@@ -1,37 +1,38 @@
-import { View, Image, StatusBar, Alert } from "react-native";
-import { FontAwesome6, MaterialIcons } from "@expo/vector-icons";
-import { Button } from "@/components/button";
-import { useState } from "react";
-import { Link } from "expo-router";
-import { ExpoRoot, router } from "expo-router";
+import { View, Image, StatusBar, Alert } from 'react-native';
+import { FontAwesome6, MaterialIcons } from '@expo/vector-icons';
+import { Button } from '@/components/button';
+import { useState } from 'react';
+import { Link } from 'expo-router';
+import {  router } from 'expo-router';
 
-import { Input } from "@/components/input";
-import { colors } from "@/styles/colors";
+import { Input } from '@/components/input';
+import { colors } from '@/styles/colors';
 
-import { api } from "@/server/api";
-import axios from "axios";
-import { useBadgeStore } from "@/store/badge-store";
+import { api } from '@/server/api';
+import axios from 'axios';
+import { useBadgeStore } from '@/store/badge-store';
 
-const EVENT_ID = "fdc06052-5633-4c66-a380-4b32ed2439e9";
+const EVENT_ID = 'fdc06052-5633-4c66-a380-4b32ed2439e9';
 
-const badgeStore = useBadgeStore();
+
 
 export default function Register() {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
+  const badgeStore = useBadgeStore();
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
   async function handleRegister() {
     try {
       if (!name.trim() || !email.trim()) {
-        return Alert.alert("Inscrição", "Preencha todos os campos");
+        return Alert.alert('Inscrição', 'Preencha todos os campos');
       }
 
       setIsLoading(true);
 
       const registerResponse = await api.post(`/events/${EVENT_ID}/attendaes`, {
         name,
-        email,
+        email
       });
 
       if (registerResponse.data.attendaeId) {
@@ -41,13 +42,13 @@ export default function Register() {
         
 
 
-        Alert.alert("Inscrição:", "Inscricao realizada com sucesso!", [
+        Alert.alert('Inscrição:', 'Inscricao realizada com sucesso!', [
           {
-            text: "OK",
+            text: 'OK',
             onPress: () => {
-              router.push("/ticket");
-            },
-          },
+              router.push('/ticket');
+            }
+          }
         ]);
       }
     } catch (error) {
@@ -56,15 +57,15 @@ export default function Register() {
       console.log(error);
       if (axios.isAxiosError(error)) {
         if (
-          String(error.response?.data.menssage).includes("email already exist")
+          String(error.response?.data.menssage).includes('email already exist')
         ) {
           return Alert.alert(
-            "Inscrição:",
-            "Você ja esta inscrito nesse evento"
+            'Inscrição:',
+            'Você ja esta inscrito nesse evento'
           );
         }
       }
-      Alert.alert("Inscrição:", "Não foi possivel realizar a inscrião");
+      Alert.alert('Inscrição:', 'Não foi possivel realizar a inscrião');
     } 
   }
 
@@ -72,7 +73,7 @@ export default function Register() {
     <View className="flex-1 bg-green-500 items-center justify-center">
       <StatusBar barStyle="light-content" />
       <Image
-        source={require("@/assets/logo.png")}
+        source={require('@/assets/logo.png')}
         className="h-16"
         resizeMode="contain"
       />
@@ -105,7 +106,7 @@ export default function Register() {
       <Link
         href="/"
         className="text-gray-200 text-base font-bold text-center mt-8">
-        Já possui ingresso?{" "}
+        Já possui ingresso?{' '}
       </Link>
     </View>
   );
