@@ -42,7 +42,7 @@ export function Credential({
               {data.eventTitle}
             </Text>
             <Text className="text-zinc-50 text-sm font-boldclass">
-               asdasdas a{ data.id}    </Text>
+               Codigo: #{ data.id}    </Text>
           </View>
           <View className="w-40 h-40 bg-black rounded-full" />
         </ImageBackground>

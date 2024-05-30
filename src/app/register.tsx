@@ -3,18 +3,15 @@ import { FontAwesome6, MaterialIcons } from '@expo/vector-icons';
 import { Button } from '@/components/button';
 import { useState } from 'react';
 import { Link } from 'expo-router';
-import {  router } from 'expo-router';
-
+import { router } from 'expo-router'; // Corrigido para importar 'router' diretamente
 import { Input } from '@/components/input';
 import { colors } from '@/styles/colors';
-
 import { api } from '@/server/api';
 import axios from 'axios';
 import { useBadgeStore } from '@/store/badge-store';
+import { BadgeStore } from "@/store/badge-store";
 
 const EVENT_ID = 'fdc06052-5633-4c66-a380-4b32ed2439e9';
-
-
 
 export default function Register() {
   const badgeStore = useBadgeStore();
@@ -25,7 +22,7 @@ export default function Register() {
   async function handleRegister() {
     try {
       if (!name.trim() || !email.trim()) {
-        return Alert.alert('Inscrição', 'Preencha todos os campos');
+        return Alert.alert('Inscrição Realizada:', 'Preencha todos os campos');
       }
 
       setIsLoading(true);
@@ -36,49 +33,46 @@ export default function Register() {
       });
 
       if (registerResponse.data.attendaeId) {
-        const badgeResponse = await api.get(`/attendaes/${registerResponse.data.attendaeId}/badge`);
+        const attendaeId = registerResponse.data.attendaeId;
+        const badgeResponse = await api.get(`/attendaes/${attendaeId}/badge`);
 
+        if (badgeResponse.data.badge) {
           badgeStore.save(badgeResponse.data.badge);
-        
-
-
-        Alert.alert('Inscrição:', 'Inscricao realizada com sucesso!', [
-          {
-            text: 'OK',
-            onPress: () => {
-              router.push('/ticket');
+          Alert.alert('Inscrição:', `Seu código é: [#${attendaeId}]`, [
+            {
+              text: 'OK',
+              onPress: () => {
+                router.push('/ticket');
+              }
             }
-          }
-        ]);
+          ]);
+        } else {
+          Alert.alert('Inscrição:', 'Não foi possível obter os dados do badge');
+        }
       }
     } catch (error) {
       setIsLoading(false);
       
       console.log(error);
       if (axios.isAxiosError(error)) {
-        if (
-          String(error.response?.data.menssage).includes('email already exist')
-        ) {
-          return Alert.alert(
-            'Inscrição:',
-            'Você ja esta inscrito nesse evento'
-          );
+        if (String(error.response?.data.menssage).includes('email already exist')) {
+          return Alert.alert('Inscrição:', 'Você já está inscrito neste evento');
         }
       }
-      Alert.alert('Inscrição:', 'Não foi possivel realizar a inscrião');
+      Alert.alert('Inscrição:', 'Não foi possível realizar a inscrição');
     } 
   }
 
   return (
-    <View className="flex-1 bg-green-500 items-center justify-center">
+    <View style={{ flex: 1, backgroundColor: colors.green[500], alignItems: 'center', justifyContent: 'center' }}>
       <StatusBar barStyle="light-content" />
       <Image
         source={require('@/assets/logo.png')}
-        className="h-16"
+        style={{ height: 100 }}
         resizeMode="contain"
       />
 
-      <View className="w-full m-12 gap-3">
+      <View style={{ width: '100%', margin: 12, gap: 3 }}>
         <Input>
           <FontAwesome6 name="user-circle" color={colors.gray[200]} size={20} />
           <Input.Field placeholder="Nome Completo" onChangeText={setName} />
@@ -98,14 +92,14 @@ export default function Register() {
         </Input>
 
         <Button
-          title="Realizar inscricao"
+          title="Realizar inscrição"
           onPress={handleRegister}
           isLoading={isLoading}
         />
       </View>
       <Link
         href="/"
-        className="text-gray-200 text-base font-bold text-center mt-8">
+        style={{ color: colors.gray[200], fontSize: 16, fontWeight: 'bold', textAlign: 'center', marginTop: 8 }}>
         Já possui ingresso?{' '}
       </Link>
     </View>

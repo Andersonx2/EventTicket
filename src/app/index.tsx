@@ -60,7 +60,7 @@ export default function Home() {
         </Input>
 
         <Button
-          title="Cadastrar ingresso"
+          title="Realizar Check In"
           onPress={handleAccessCredenciall}
           isLoading={isLoading}
         />
