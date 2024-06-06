@@ -11,7 +11,7 @@ export async function checkIn(app: FastifyInstance) {
         .get('/attendaes/:attendaeId/check-in', {
             schema: {
                 summary: 'Check-ins',
-                tags: ['check-in'],
+                tags: ['Check-in'],
                 params: z.object({
                     attendaeId: z.coerce.number().int()
                 }),

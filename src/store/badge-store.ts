@@ -8,7 +8,7 @@ export type BadgeStore = {
   email: string
   eventTitle: string
   checkInURL: string
-  image?: string
+  image: string
 }
 
 type StateProps = {

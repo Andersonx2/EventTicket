@@ -9,8 +9,6 @@
     "web": "expo start --web",
     "test": "jest --watchAll",
     "lint": "eslint src/**/*.{js,jsx,ts,tsx} --fix"
-  
-
   },
   "jest": {
     "preset": "jest-expo"
@@ -35,6 +33,7 @@
     "expo-updates": "^0.25.15",
     "expo-web-browser": "~13.0.3",
     "immer": "^10.1.1",
+    "moti": "^0.29.0",
     "nativewind": "^4.0.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",

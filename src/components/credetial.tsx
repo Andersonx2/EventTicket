@@ -4,6 +4,7 @@ import {
   ImageBackground,
   Text,
   TouchableOpacity,
+  useWindowDimensions,
 } from "react-native";
 
 import { colors } from "@/styles/colors";
@@ -11,6 +12,7 @@ import { Feather } from "@expo/vector-icons";
 import { QrCode } from "@/components/qrcode";
 import { Link } from "expo-router";
 import { BadgeStore } from "@/store/badge-store";
+import { MotiView } from "moti";
 
 type Props = {
   data: BadgeStore;
@@ -19,14 +21,40 @@ type Props = {
   onShowQrCode?: () => void;
 };
 
-export function Credential({
-  data,
-  onChangeAvatar,
-  onShowQrCode,
-  image,
-}: Props) {
+export function Credential({ data, onChangeAvatar, onShowQrCode }: Props) {
+  const { height } = useWindowDimensions();
+
   return (
-    <View className="w-full self-stretch items-center">
+    <MotiView
+     className="w-full self-stretch items-center"
+     from={{ 
+      opacity: 0, 
+      translateY: -height, 
+      rotateZ: "511deg",
+      rotateY: "30deg",
+      rotateX: "30deg"
+    }}
+      
+      animate= {{ 
+      opacity: 1,
+      translateY: 0, 
+      rotateZ: "0deg",  
+      rotateY: "0deg",
+      rotateX: "0deg"
+      }}
+
+      
+      
+      transition=  {{ 
+        type: "spring",
+        damping: 20,
+        rotateZ:{ 
+          damping: 15,
+          mass: 3
+        }
+      
+      }}  
+   >
       <Image
         source={require("@/assets/ticket/band.png")}
         className="w-24 h-52 z-10"
@@ -42,15 +70,14 @@ export function Credential({
               {data.eventTitle}
             </Text>
             <Text className="text-zinc-50 text-sm font-boldclass">
-               Codigo: #{ data.id}    </Text>
+              Codigo:#{data.id}{" "}
+            </Text>
           </View>
           <View className="w-40 h-40 bg-black rounded-full" />
         </ImageBackground>
 
         {data.image ? (
-          <TouchableOpacity 
-          activeOpacity={0.9} 
-          onPress={onChangeAvatar}>
+          <TouchableOpacity activeOpacity={0.9} onPress={onChangeAvatar}>
             <Image
               source={{ uri: data.image }}
               className="w-36 h-36 rounded-full -mt-24"
@@ -70,9 +97,11 @@ export function Credential({
           {data.name}
         </Text>
 
-        <Text className="font-regular text-base text-zinc-300 mb-4">{data.email} </Text>
+        <Text className="font-regular text-base text-zinc-300 mb-4">
+          {data.email}{" "}
+        </Text>
 
-        <QrCode value={ data.checkInURL} size={160} />
+        <QrCode value={data.checkInURL} size={160} />
 
         <TouchableOpacity
           activeOpacity={0.7}
@@ -90,6 +119,6 @@ export function Credential({
           Voltar
         </Link>
       </View>
-    </View>
+    </MotiView>
   );
 }

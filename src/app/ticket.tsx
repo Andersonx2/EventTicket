@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState } from "react";
 import {
   StatusBar,
   View,
@@ -6,30 +6,44 @@ import {
   Text,
   ScrollView,
   TouchableOpacity,
-  Modal
-} from 'react-native';
+  Modal,
+  Share,
+} from "react-native";
 
-import { Header } from '@/components/hearder';
-import { Credential } from '@/components/credetial';
-import { FontAwesome } from '@expo/vector-icons';
-import { colors } from '@/styles/colors';
-import { Button } from '@/components/button';
-import * as ImagePicker from 'expo-image-picker';
-import { QrCode } from '@/components/qrcode';
-import { useBadgeStore } from '@/store/badge-store';
-import { Redirect } from 'expo-router';
+import { Header } from "@/components/hearder";
+import { Credential } from "@/components/credetial";
+import { FontAwesome } from "@expo/vector-icons";
+import { colors } from "@/styles/colors";
+import { Button } from "@/components/button";
+import * as ImagePicker from "expo-image-picker";
+import { QrCode } from "@/components/qrcode";
+import { useBadgeStore } from "@/store/badge-store";
+import { Redirect } from "expo-router";
+import { MotiView } from "moti";
 
 export default function Ticket() {
   const badgeStore = useBadgeStore();
   const [onShowQrCode, setonShowQrCode] = useState(false);
 
+  async function handleShare() {
+    try {
+      if (badgeStore.data?.checkInURL) {
+        await Share.share({
+          message: badgeStore.data.checkInURL,
+        });
+      }
+    } catch (error) {
+      console.log(error);
+      Alert.alert("Foto", "Nao foi possível compartilhar a foto ");
+    }
+  }
 
   async function handlesSelectImage() {
     try {
       const result = await ImagePicker.launchImageLibraryAsync({
         mediaTypes: ImagePicker.MediaTypeOptions.Images,
         allowsEditing: true,
-        aspect: [4, 3]
+        aspect: [4, 3],
       });
 
       if (result.assets) {
@@ -38,16 +52,15 @@ export default function Ticket() {
       }
     } catch (error) {
       console.log(error);
-      Alert.alert('Foto', 'Nao foi possivel selecionar a foto ');
+      Alert.alert("Foto", "Nao foi possível selecionar a foto ");
     }
   }
 
-  if(!badgeStore.data?.checkInURL){
-    return <Redirect href="/"/>;
-
+  if (!badgeStore.data?.checkInURL) {
+    return <Redirect href="/" />;
   }
 
- return (
+  return (
     <View className="flex-1 bg-green-500">
       <StatusBar barStyle="light-content" />
       <Header title="Minha Credencial" />
@@ -60,44 +73,61 @@ export default function Ticket() {
           data={badgeStore.data}
           onChangeAvatar={handlesSelectImage}
           onShowQrCode={() => setonShowQrCode(true)}
-          
         />
 
-        <FontAwesome
-          name="angle-double-down"
-          size={24}
-          color={colors.gray[300]}
-          className="self-center my-6"
-        />
-
-        <Text className="text-white font-bold text-2xl mt-4  text-center mb-4">
-          Compartilhar a  Credencial
+        <MotiView
+          from={{
+            translateY: 0,
+          }}
+          animate={{
+            translateY: 10,
+          }}
+          transition={{
+            loop: true,
+            type: "timing",
+            duration: 700,
+          }}
+        >
+          <FontAwesome
+            name="angle-double-down"
+            size={30}
+            color={colors.gray[300]}
+            className="self-center my-6"
+          />
+        </MotiView>
+        <Text
+          onPress={handleShare}
+          className="text-white font-bold text-2xl mt-4  text-center mb-4"
+        >
+          Compartilhar a Credencial
         </Text>
 
         <Button title="Compartilhar" />
 
-        <TouchableOpacity 
-         activeOpacity={0.7} 
-         className="mt-10"
-         onPress={() => badgeStore.remove()}
-         >
+        <TouchableOpacity
+          activeOpacity={0.7}
+          className="mt-10"
+          onPress={() => badgeStore.remove()}
+        >
           <Text className="text-base text-white font-bold text-center">
-            {' '}
+            {" "}
             Remover Ingresso
           </Text>
         </TouchableOpacity>
       </ScrollView>
 
-      <Modal visible={onShowQrCode} statusBarTranslucent  animationType="slide">
+      <Modal visible={onShowQrCode} statusBarTranslucent animationType="slide">
         <View className="flex-1 bg-green-500 items-center justify-center">
-  
-          <TouchableOpacity  activeOpacity={0.7} onPress={()=>setonShowQrCode(false)}>
-          <QrCode value="teste" size={300}/>
+          <TouchableOpacity
+            activeOpacity={0.7}
+            onPress={() => setonShowQrCode(false)}
+          >
+            <QrCode value="teste" size={300} />
             <Text className="font-body text-orange-500 text-sm mt-16 text-center">
               Fechar
             </Text>
           </TouchableOpacity>
-        </View>      
+        </View>
       </Modal>
     </View>
   );

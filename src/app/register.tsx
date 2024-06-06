@@ -11,7 +11,7 @@ import axios from 'axios';
 import { useBadgeStore } from '@/store/badge-store';
 import { BadgeStore } from "@/store/badge-store";
 
-const EVENT_ID = 'fdc06052-5633-4c66-a380-4b32ed2439e9';
+const EVENT_ID = 'ed1d2e59-4e88-48dc-b2e8-4677fe1d7e03';
 
 export default function Register() {
   const badgeStore = useBadgeStore();

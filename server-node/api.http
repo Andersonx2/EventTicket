@@ -2,10 +2,10 @@ POST http://localhost:3333/events
 Content-Type: application/json
 
 {
- "title": "Classicos",
- "details": "Amistoso",
+ "title": "Classiaascos",
+ "details": "Amiasastoso",
  "maximumAttendeaes": 29168,
- "slug": "ingresso"
+ "slug": "ingresdaso"
 } 
 
 
@@ -15,9 +15,8 @@ Content-Type: application/json
 
 { 
  "name": "bruna",
- "email": "brsaunas@gmail.com"
+ "email": "brssaunas@gmail.com"
 }
-
 
 ###
 GET  http://localhost:3333/events/fdc06052-5633-4c66-a380-4b32ed2439e9
